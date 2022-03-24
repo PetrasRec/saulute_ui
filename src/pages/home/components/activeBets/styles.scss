@@ -1,0 +1,23 @@
+.active_bets__card {
+    position: relative;
+    width: 280px;
+    height: auto;
+    padding: 20px 20px 0 20px;
+    background: #fff;
+    border-radius: 6px;
+    height: auto;
+
+    .header {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    span.bet_info {
+        font-size: 12px;
+        font-weight: 600;
+    }
+}

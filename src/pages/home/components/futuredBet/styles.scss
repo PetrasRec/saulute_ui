@@ -1,0 +1,99 @@
+.popular_bet__card {
+    position: relative;
+    width: 280px;
+    padding: 20px 20px 0 20px;
+    background: #fff;
+    border-radius: 6px;
+
+    .header {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .badge {
+            background-color: #f7ad0b;
+            padding: 11px 9px;
+            border-radius: 4px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+        .date {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        svg {
+            cursor: pointer;
+        }
+    }
+
+    .body {
+        margin-top: 15px;
+        // text-align: center;
+
+        h1 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .info {
+            font-size: 11px;
+            margin-top: -7px;
+            font-weight: 600;
+        }
+
+        .author {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    }
+
+    .bet_btn__container {
+        display: flex;
+        justify-content: space-between;
+
+        .heart__btn {
+            margin-top: 15px;
+
+            svg {
+                margin-top: -4px;
+            }
+        }
+        .bet__btn {
+            position: relative;
+            width: 100%;
+            margin-top: 15px;
+
+            button {
+                width: 100%;
+                color: #fff;
+                font-weight: 600;
+            }
+
+            svg {
+                margin-right: 6px;
+            }
+        }
+    }
+
+    .footer {
+        margin-top: 10px;
+        padding: 4px 0 8px 0;
+        background: #fff;
+        cursor: pointer;
+
+        &:hover h1{
+            text-decoration: underline;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+}

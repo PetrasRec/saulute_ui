@@ -1,0 +1,79 @@
+.list-dropdown{
+    height: 45px;
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    font-size: 18px;
+    color:rgb(119, 118, 120);
+    cursor: pointer;
+    text-decoration: none;
+    width: 100% !important;
+    font-weight: 600;
+    border-bottom: 1px solid #ced4da;
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none;
+  }
+  
+  .list-dropdown:hover{
+    color:var(--main-color-dark);
+    background-color: #f8f9fa;
+    font-weight: 600;
+  }
+  
+  .list-name{
+    width: 100%;
+  }
+  
+  .sidebar-exp.expanded,
+  .exp-header:hover {
+    background-color: rgba(    0, 144, 54, 0.1);
+    color: rgb(0, 144, 54)
+  }
+  
+  .sidebar-exp span {
+    font-size: 23px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .sidebar-exp{
+    height: 45px;
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    font-size: 14px;
+    color:rgb(118, 115, 114);
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+    -webkit-touch-callout: none; 
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none;
+            position: relative; 
+            overflow: hidden; 
+  }
+  
+  .list-items .sidebar-item a.sidebar-link{
+    padding: 0 40px;
+  }
+  
+  .sidebar-name {
+    display: flex;
+  }
+  
+  .list-name.sidebar-name span, 
+  .list-name.sidebar-name i{ 
+    margin-right: 16px;
+  }
+  
+  .sidebar-icon  {
+    font-size: 19px;
+    margin-right: 20px;
+  }

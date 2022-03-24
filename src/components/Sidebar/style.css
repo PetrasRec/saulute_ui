@@ -1,0 +1,32 @@
+.sidebar {
+    width: 250px;
+    float: left;
+    position: fixed;
+    height: calc(100% - 60px);
+    background-color: white;
+    padding: 30px 0px;
+    border-right: 1px solid rgba(0,0,0, 0.1);
+    color: rgba(0, 0, 0, 0.54);
+    overflow-y: auto;
+    transition: left 300ms ease-in-out;
+    scrollbar-color: #888 #e5e5e5;
+    scrollbar-width: thin;
+  }
+  
+  .opened {
+    left: 0px;
+  }
+  
+  .closed {
+    left: -250px;
+  }
+  
+  .sidebar hr {
+    width: 100%;
+    margin: 10px 0px;
+  }
+  
+  .sidebar ul {
+    margin: 0;
+    padding: 0;
+  }

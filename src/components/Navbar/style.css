@@ -1,0 +1,19 @@
+
+.hamburger-btn{
+    padding-right: 10px;
+}
+
+.right-icons {
+    padding-right: 10px;
+}
+
+.nav-icon {
+    padding-left: 5px;
+    padding-right: 5px;
+    color: white;
+}
+
+.navbar{
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(212,241,7,1) 0%, rgba(255,111,0,1) 98%);
+}

@@ -1,0 +1,88 @@
+.profile__page {
+    
+    img {
+        margin-left: 0px;
+        max-width: 10%;
+        height: auto;
+        padding-left: 10px;
+    }
+
+
+    .profile-summary {
+
+        font-size: 20px;
+        margin-left: 0px;
+        padding-left: 20px;
+    }
+
+    .first {
+        font-size: 25px;
+        font-weight: bold;
+        font-family: 'Courier New', Courier, monospace;
+        padding-top: 50px;
+    }
+
+    .second {
+        font-family: 'Courier New', Courier, monospace;
+        margin-bottom: 200;
+
+    }
+
+    .footer {
+        position: fixed;
+        margin-bottom: 50px;
+        bottom: 0;
+        margin-top: 18px;
+    }
+
+    .name {
+        padding-bottom: 50px;
+        padding-left: 15px;
+        font-size: 4rem;
+        font-weight: bold;
+    }
+    .card {
+        margin: 5px;
+        padding-bottom: 10px;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        
+    }
+
+    .card-title {
+        font-size: 3rem;
+    }
+
+    .card-text {
+        font-size: 2rem;
+    }
+
+    .flex {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .flex-child {
+        flex: 1;
+        background-color: #f1f1f1;
+    }
+
+    .flex-container {
+        display: flex;
+    }
+
+    .flex-profile {
+        width: 400px;
+        height: 180px;
+    }
+    .right {
+        text-align: right;
+    }
+    .profile {
+        padding: 0px;
+        border: 1px solid #555;
+        border-radius: 50%;
+        width: 200px;
+        height: 150px;
+    }
+}
