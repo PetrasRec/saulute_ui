@@ -9,16 +9,16 @@ import Profile from "./pages/profile";
 import Users from "./pages/users";
 
 const Root = () => {
-    const [open, isOpen] = useState(true);
+    const [open, setOpen] = useState(true);
     console.log(localStorage.getItem("role"), localStorage.getItem("role") == null);
-    if (!localStorage.getItem("role")) {
+    if (localStorage.getItem("role")) {
         return null;
     }
 
     return (
         <>
-            <Navbar />
-            <Sidebar opened={open} toggleOpen={() => isOpen(!open)} />
+            <Navbar toggleOpen={() => setOpen(!open)} />
+            <Sidebar opened={open} />
             <Switch>
                 <MainContainer py="3" px="4" fullWidth>
                     <Route exact path="/" component={Home}></Route>
