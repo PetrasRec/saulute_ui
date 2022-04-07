@@ -4,6 +4,10 @@ import { addUser, editUser } from "../../../api";
 import { messageHandling } from '../../../utils/messageHandling';
 
 const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
+
+    const [selectedImage, setSelectedImage] = useState(null);
+
+
     const [user, setUser] = useState(userData ? userData : {
         userName: "",
         name: "",
@@ -31,8 +35,31 @@ const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
 
     return (
         <Form onSubmit={onSubmit}>
+            <div>
+      {selectedImage && (
+        <div>
+        <img alt="not fount" width={"250px"} src={URL.createObjectURL(selectedImage)} />
+        <br />
+        <button onClick={()=>setSelectedImage(null)}>Remove</button>
+        </div>
+      )}
+      <br />
+     
+      <br /> 
+      <input
+        type="file"
+        name="myImage"
+        onChange={(event) => {
+          console.log(event.target.files[0]);
+          setSelectedImage(event.target.files[0]);
+        }}
+      />
+
+    </div>
+  
+
             <Form.Group>
-                <Form.Label>Name</Form.Label>
+                <Form.Label class="names">Name</Form.Label>
                 <Form.Control
                     name="name"
                     onChange={onChange}
@@ -41,7 +68,7 @@ const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
                 />
             </Form.Group>
             <Form.Group>
-                <Form.Label>Surname</Form.Label>
+                <Form.Label class="names">Surname</Form.Label>
                 <Form.Control
                     name="surname"
                     onChange={onChange}

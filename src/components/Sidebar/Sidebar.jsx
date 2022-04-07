@@ -13,7 +13,13 @@ const Sidebar = ({ opened }) => {
           </span>
           Home
         </SidebarItem>
-        { localStorage.getItem("role") == "Admin" && (
+        <SidebarItem url="/users">
+          <span className="material-icons">
+          elderly
+          </span>
+          Prižiūrimieji
+        </SidebarItem>
+        { localStorage.getItem("role") === "Admin" && (
           <>
             <SidebarItem url="/users">
                 <span className="material-icons">

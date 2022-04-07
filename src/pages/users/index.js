@@ -47,10 +47,11 @@ class Users extends Component {
 
         return (
             <div>
-                <h2>Users</h2>
-                <Button onClick={this.toggleFormStatus} className="right-button">
+                <h2>Prižiūrimieji</h2>
+                <Button onClick={this.toggleFormStatus} className='btn'>
                     Add User
                 </Button>
+                
                 <hr/>
                 <UsersTable 
                     users={users}
@@ -58,6 +59,7 @@ class Users extends Component {
                     isLoading={users === null}
                     onUsersChange={this.onUsersChange}
                 />
+                
                  <Modal show={isOpen} onHide={this.toggleFormStatus}>
                     <Modal.Header closeButton>
                         <Modal.Title> Add New User </Modal.Title>

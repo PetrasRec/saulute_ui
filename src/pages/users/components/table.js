@@ -7,6 +7,7 @@ const UsersTable = ({ users, roles, isLoading, onUsersChange }) => {
 
     const [isOpen, setOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [selectedImage, setSelectedImage] = useState(null);
 
     const toggleFormStatus = () => {
         setOpen(!isOpen);
