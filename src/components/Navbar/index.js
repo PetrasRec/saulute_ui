@@ -1,15 +1,15 @@
 import React from 'react'
 import { useHistory } from "react-router";
-import { Navbar, Nav} from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import { NavLink } from 'react-router-dom';
 import "./style.css";
 
-const NavigationBar = () => {
-    return(
-        <Navbar className="navbar" expand="lg" sticky="top">
-            <span className="material-icons hamburger-btn">
+const NavigationBar = ({ toggleOpen }) => {
+    return (
+        <Navbar style={{ zIndex: 1 }} className="navbar" expand="lg" sticky="top">
+            <button onClick={toggleOpen} className="material-icons hamburger-btn">
                 menu
-            </span>
+            </button>
             <Navbar.Brand href="/">
                 <img src={"img/logo.png"} width="50px" height="25px" alt="Logo" />
             </Navbar.Brand>

@@ -1,11 +1,9 @@
-import { React, useState } from 'react';
+import { React, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import MaterialTable from 'material-table'
 import UserForm from "./form";
 import { deleteSupervisedUsers } from "../../../api";
 
-const UsersTable = ({ users, roles, isLoading, onUsersChange, refreshUsers}) => {
-
+const UsersTable = ({ users, roles, isLoading, onUsersChange, refreshUsers }) => {
     const [isOpen, setOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
@@ -13,7 +11,6 @@ const UsersTable = ({ users, roles, isLoading, onUsersChange, refreshUsers}) => 
     const toggleFormStatus = () => {
         setOpen(!isOpen);
     };
-
 
     const onEditClick = (user) => {
         setSelectedUser(user);
@@ -25,7 +22,7 @@ const UsersTable = ({ users, roles, isLoading, onUsersChange, refreshUsers}) => 
         refreshUsers();
     };
     const actions = (user) => (
-        <>    
+        <>
             <Button
                 type="button"
                 key="editButton"
@@ -42,12 +39,12 @@ const UsersTable = ({ users, roles, isLoading, onUsersChange, refreshUsers}) => 
             >
                 Delete
             </Button>
-        </>        
+        </>
     );
 
     return (
         <>
-            <MaterialTable
+            {/* <MaterialTable
                 className="material-table"
                 columns={[
                     { title: "Name", field: "name" },
@@ -60,13 +57,13 @@ const UsersTable = ({ users, roles, isLoading, onUsersChange, refreshUsers}) => 
                     action: actions(u),
                     role_name: roles?.find(r => r.id === u.roleId)?.name ?? "No Role",
                 })) : []}         
-            />
+            /> */}
             <Modal show={isOpen} onHide={toggleFormStatus}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{users ? "Edit user" : "Add user" }</Modal.Title>
+                    <Modal.Title>{users ? "Edit user" : "Add user"}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <UserForm 
+                    <UserForm
                         userData={selectedUser}
                         onUsersChange={onUsersChange}
                         toggleModal={toggleFormStatus}

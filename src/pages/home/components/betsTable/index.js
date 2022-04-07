@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function BetsTable({onClick, items}) {
+export default function BetsTable({ onClick, items }) {
     const classes = useStyles();
     const [order, setOrder] = React.useState("asc");
     const [orderBy, setOrderBy] = React.useState("title");
@@ -120,7 +120,7 @@ export default function BetsTable({onClick, items}) {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        setRows(items.map(i => createData(i?.title, i?.dateStart, i?.user?.userName)));
+        setRows(items.map((i) => createData(i?.title, i?.dateStart, i?.user?.userName)));
     }, [items]);
 
     const handleRequestSort = (event, property) => {
@@ -169,7 +169,11 @@ export default function BetsTable({onClick, items}) {
                                             role="checkbox"
                                             tabIndex={-1}
                                             key={row?.title}
-                                            onClick={() => onClick(items.filter(i => i.title === row.title)[0])}
+                                            onClick={() =>
+                                                onClick(
+                                                    items.filter((i) => i.title === row.title)[0]
+                                                )
+                                            }
                                         >
                                             <TableCell padding="checkbox"></TableCell>
                                             <TableCell
