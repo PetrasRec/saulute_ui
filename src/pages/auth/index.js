@@ -9,6 +9,7 @@ const curr_year = new Date().getFullYear()
 
 
 const Auth = ({match}) => {
+    localStorage.removeItem("role");
     return (
         <>
         <Container className="position-relative vh-100">
@@ -28,7 +29,7 @@ const Auth = ({match}) => {
                     <img src="/img/first_picture.png" />
                     <div className="title">
                         <h1>Senelių priežiūra</h1>
-                        <p> Kol Saulutė švies, tol senjorai bus saugūs</p>
+                        <p> Kol Saulutė švies senjorai bus saugūs</p>
                     </div>
                 </div>
             </div>

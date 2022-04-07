@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { addUser, editUser } from "../../../api";
+import { createSupervisedUsers, updateSupervisedUsers } from "../../../api";
 import { messageHandling } from '../../../utils/messageHandling';
 
 const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
@@ -23,10 +23,10 @@ const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
         e.preventDefault();
         let result = null;
         if (userData) {
-            result = await editUser(userData.id, user);
+            result = await updateSupervisedUsers(userData.id, user);
             messageHandling("success", "Successfuly updated user");
         } else {
-            result = await addUser(user);
+            result = await createSupervisedUsers(localStorage.getItem("user_id"), user);
             messageHandling("success", "Successfuly added new user");
         }
         toggleModal();

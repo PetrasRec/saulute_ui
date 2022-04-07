@@ -19,23 +19,6 @@ const Sidebar = ({ opened }) => {
           </span>
           Prižiūrimieji
         </SidebarItem>
-        { localStorage.getItem("role") === "Admin" && (
-          <>
-            <SidebarItem url="/users">
-                <span className="material-icons">
-                group_add
-                </span>
-                Prižiūrimi žmonės
-            </SidebarItem>
-            <SidebarItem url="/bets">
-                <span className="material-icons">
-                casino
-                </span>
-                Ataskaita
-            </SidebarItem>
-          </>
-        )
-        }
       </ul>
       <hr />
     </div>

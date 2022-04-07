@@ -4,38 +4,35 @@ import { Button, Modal } from "react-bootstrap";
 import MainContainer from "../../components/MainContainer";
 import UsersTable from "./components/table";
 import UserForm from "./components/form";
-import {getAllRoles, getUsers} from "../../api";
+import {getSupervisedUsers} from "../../api";
 import "./style.css";
 import { messageHandling } from "../../utils/messageHandling";
 
 class Users extends Component {
     state = {
         isOpen: false,
-        users: [
-            {
-                name: "SenelisVardas1",
-                surname: "SenelisPavarde1"
-            }
-        ],
-        roles: null,
+        users: null,
     };
 
-    componentDidMount = async () => {
-        //const users = await getUsers();
-       // const roles = await getAllRoles();
-       // this.setState({ users: users.data, roles: roles.data });
+    refreshUsers = async () => {
+        const users = await getSupervisedUsers(localStorage.getItem("user_id"));
+        this.setState({ users: users.data });
+    }
+
+    componentDidMount = () => {
+        this.refreshUsers();
     }
 
     toggleFormStatus = () => {
-      //  const { isOpen } = this.state;
-      //  this.setState({ isOpen: !isOpen });
+        const { isOpen } = this.state;
+        this.setState({ isOpen: !isOpen });
     };
 
     onUsersChange = (user) => {
-     //   const {users} = this.state;
-     ////   this.setState({
-     //       users: users.map(u => u.id === user.id ? user : u).concat(users.find(u => u.id === user.id) ? [] : [user]),
-     //   });
+        const {users} = this.state;
+        this.setState({
+            users: users.map(u => u.id === user.id ? user : u).concat(users.find(u => u.id === user.id) ? [] : [user]),
+        });
     };
 
     render() {
@@ -58,6 +55,7 @@ class Users extends Component {
                     roles={roles}
                     isLoading={users === null}
                     onUsersChange={this.onUsersChange}
+                    refreshUsers={this.refreshUsers}
                 />
                 
                  <Modal show={isOpen} onHide={this.toggleFormStatus}>

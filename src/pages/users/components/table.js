@@ -2,8 +2,9 @@ import { React, useState } from 'react';
 import { Button, Modal } from "react-bootstrap";
 import MaterialTable from 'material-table'
 import UserForm from "./form";
+import { deleteSupervisedUsers } from "../../../api";
 
-const UsersTable = ({ users, roles, isLoading, onUsersChange }) => {
+const UsersTable = ({ users, roles, isLoading, onUsersChange, refreshUsers}) => {
 
     const [isOpen, setOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
@@ -19,6 +20,10 @@ const UsersTable = ({ users, roles, isLoading, onUsersChange }) => {
         toggleFormStatus();
     };
 
+    const onDelete = async (user) => {
+        await deleteSupervisedUsers(user.id);
+        refreshUsers();
+    };
     const actions = (user) => (
         <>    
             <Button
@@ -28,6 +33,14 @@ const UsersTable = ({ users, roles, isLoading, onUsersChange }) => {
                 onClick={() => onEditClick(user)}
             >
                 Edit
+            </Button>
+            <Button
+                type="button"
+                key="editButton"
+                className="danger"
+                onClick={() => onDelete(user)}
+            >
+                Delete
             </Button>
         </>        
     );

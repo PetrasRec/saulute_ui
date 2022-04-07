@@ -10,6 +10,11 @@ import Users from "./pages/users";
 
 const Root = () => {
     const [open, isOpen] = useState(true);
+    console.log(localStorage.getItem("role"), localStorage.getItem("role") == null )
+    if (!localStorage.getItem("role")) {
+        return null;
+    }
+
     return (
         <>
             <Navbar />

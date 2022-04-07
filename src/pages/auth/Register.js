@@ -11,8 +11,8 @@ const Register = () => {
         e.preventDefault();
         try {
             const req = await axios.post("/users", user);
-
-            if (req.data.succeeded) {
+            console.log(req);
+            if (req.status === 200) {
                 history.push("login");
             }
         } catch (e) {

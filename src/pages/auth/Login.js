@@ -17,6 +17,7 @@ const Login = () => {
             return;
         }
         localStorage.setItem("role", role.data.roleName);
+        localStorage.setItem("user_id", role.data.user_id);
         history.push("");  
     };
 
