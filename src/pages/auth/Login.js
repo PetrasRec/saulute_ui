@@ -12,7 +12,9 @@ const Login = () => {
     const onFormSubmit = async (e) => {
         e.preventDefault();
         const role = await axios.post("authenticate/login", user, { withCredentials: true });
+        console.log(role)
         if (role.isError) {
+            console.log("err")
             messageHandling("error", role.data);
             return;
         }
