@@ -19,6 +19,18 @@ const Sidebar = ({ opened }) => {
           </span>
           Prižiūrimieji
         </SidebarItem>
+        <SidebarItem url="/profile">
+          <span className="material-icons">
+          person
+          </span>
+          Profilis
+        </SidebarItem>
+        <SidebarItem url="/rooms">
+          <span className="material-icons">
+          house
+          </span>
+          Kambarių įvedimas
+        </SidebarItem>
       </ul>
       <hr />
     </div>
