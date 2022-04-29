@@ -36,28 +36,26 @@ const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
     return (
         <Form onSubmit={onSubmit}>
             <div>
-      {selectedImage && (
-        <div>
-        <img alt="not fount" width={"250px"} src={URL.createObjectURL(selectedImage)} />
-        <br />
-        <button onClick={()=>setSelectedImage(null)}>Remove</button>
-        </div>
-      )}
-      <br />
-     
-      <br /> 
-      <input
-        type="file"
-        name="myImage"
-        onChange={(event) => {
-          console.log(event.target.files[0]);
-          setSelectedImage(event.target.files[0]);
-        }}
-      />
+                    {selectedImage && (
+                        <div>
+                        <img alt="not fount" width={"250px"} src={URL.createObjectURL(selectedImage)} />
+                        <br />
+                        <button onClick={()=>setSelectedImage(null)}>Remove</button>
+                        </div>
+                    )}
+                    <br />
+                    
+                    <br /> 
+                    <input
+                        type="file"
+                        name="myImage"
+                        onChange={(event) => {
+                        console.log(event.target.files[0]);
+                        setSelectedImage(event.target.files[0]);
+                        }}
+                    />
 
-    </div>
-  
-
+            </div>
             <Form.Group>
                 <Form.Label class="names">Name</Form.Label>
                 <Form.Control
@@ -76,10 +74,10 @@ const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
                     required
                 />
             </Form.Group>
-            <Button variant="primary" type="submit" >
-                {userData ? "Update" : "Add" }
-            </Button>
-        </Form>
+        <Button variant="primary" type="submit" >
+            {userData ? "Update" : "Add" }
+        </Button>
+    </Form>
     )
 }
 

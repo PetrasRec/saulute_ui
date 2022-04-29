@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, NavLink } from "react-bootstrap";
 import MainContainer from "../../components/MainContainer";
 import UsersTable from "./components/table";
 import UserForm from "./components/form";
@@ -8,13 +8,12 @@ import "./style.css";
 import { messageHandling } from "../../utils/messageHandling";
 import { SimpleGrid, Flex, HStack, VStack, Image, Text, Badge, Icon, Spacer, Button } from '@chakra-ui/react'
 import { HiOutlineDocumentReport } from 'react-icons/hi';
-
+import { Link } from "react-router-dom";
 
 class Users extends Component {
   state = {
     isOpen: false,
     users: null,
-    diedukai: []
   };
 
   refreshUsers = async () => {
@@ -34,9 +33,6 @@ class Users extends Component {
   toggleFormStatus = () => {
     const { isOpen } = this.state;
     this.setState({ isOpen: !isOpen });
-    let xd = this.state.diedukai
-    xd.push(1)
-    this.setState({ diedukai: xd })
   };
 
   onUsersChange = (user) => {
@@ -81,8 +77,11 @@ class Users extends Component {
                     </Flex>
                     <Flex h="100%" />
                     <Flex flexDir="column" >
-                      <Button onClick={() => this.onDelete(x)} width="100%" color="white" style={{ background: "red" }}>Ištrinti</Button>
+                      <Link to={`/${x.id}/rooms`}>
+                        <Button mt={2} color="white" style={{ background: "purple" }}>Priežiūra</Button>
+                      </Link>
                       <Button mt={2} color="white" style={{ background: "green" }}>Redaguoti</Button>
+                      <Button mt={2} onClick={() => this.onDelete(x)} width="100%" color="white" style={{ background: "red" }}>Ištrinti</Button>
                     </Flex>
                   </VStack>
                 </HStack>

@@ -26,7 +26,7 @@ const Root = () => {
                     {/*} <Route exact path="/users/profile" component={Profile}></Route> */}
                     <Route exact path="/users" component={Users}></Route>
                     <Route exact path="/profile" component={Profile}></Route>
-                    <Route exact path="/rooms" component={Rooms}></Route>
+                    <Route exact path="/:id/rooms" component={Rooms}></Route>
                 </MainContainer>
             </Switch>
         </>

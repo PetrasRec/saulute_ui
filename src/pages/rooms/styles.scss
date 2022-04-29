@@ -1,81 +1,58 @@
-.room_page {
-    
-    img {
-        margin-left: 0px;
-        max-width: 10%;
-        height: auto;
-        padding-left: 10px;
-    }
-
-
-    .users-title {
-
-        font-size: 20px;
-        margin-left: 0px;
-        left: 10px;
-        padding-bottom: 20px;
-    }
-
-    .dropdown{
-        align-content: center;
-    }
-
-    .first {
-        font-size: 25px;
-        font-weight: bold;
-        font-family: 'Courier New', Courier, monospace;
-        padding-top: 50px;
-    }
-
-    .second {
-        font-family: 'Courier New', Courier, monospace;
-        margin-bottom: 200;
-
-    }
-
-    .footer {
-        position: fixed;
-        margin-bottom: 50px;
-        bottom: 0;
-        margin-top: 18px;
-    }
-
-    .name {
-        padding-bottom: 50px;
-        padding-left: 15px;
-        font-size: 4rem;
-        font-weight: bold;
-    }
-.hidden{
-    visibility:hidden;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-    .flex {
-        display: flex;
-        flex-wrap: nowrap;
-    }
+body {
+    font-family: 'Poppins', sans-serif;
+}
 
-    .flex-child {
-        flex: 1;
-        background-color: #f1f1f1;
-    }
+.container {
+    max-width: 500px;
+    margin: 30px auto;
+    overflow: auto;
+    min-height: 300px;
+    border: 1px solid steelblue;
+    padding: 30px;
+    border-radius: 5px;
+}
 
-    .flex-container {
-        display: flex;
-    }
+.names {
+    font-size: larger;
+}
 
-    .flex-profile {
-        width: 400px;
-        height: 180px;
-    }
-    .right {
-        text-align: right;
-    }
-    .profile {
-        padding: 0px;
-        border: 1px solid #555;
-        border-radius: 50%;
-        width: 200px;
-        height: 150px;
-    }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: inherit;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
 }
