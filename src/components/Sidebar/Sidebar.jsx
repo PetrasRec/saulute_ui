@@ -2,6 +2,7 @@ import React from "react";
 import "./style.css";
 import SidebarItem from "../SidebarItem";
 
+
 const Sidebar = ({ opened }) => {
 
   return (
@@ -25,11 +26,11 @@ const Sidebar = ({ opened }) => {
           </span>
           Profilis
         </SidebarItem>
-        <SidebarItem url="/rooms">
+        <SidebarItem url="/beacons">
           <span className="material-icons">
-          house
+          cast
           </span>
-          Kambarių įvedimas
+          Švyturiai
         </SidebarItem>
       </ul>
       <hr />

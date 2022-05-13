@@ -5,11 +5,12 @@ import Banner from "../home/components/banner";
 import "../home/components/banner/styles.scss";
 import "./styles.scss";
 
+
 const Profile = () => {
     const [user, setUser] = useState({
-        name: "Vardenis",
-        surname: "Pavardenis",
-    });
+        name: "vardenis",
+        surname: "pavarde"
+    })
 
     return (
         <div className="profile__page">
@@ -20,22 +21,22 @@ const Profile = () => {
                         {user.name} {user.surname}
                     </div>
                     <div className="profile-summary second">
-                        prižiūrėtojas 
+                        prižiūrėtojas
                     </div>
                 </div>
             </div>
-            <hr/>
+            <hr />
             <div className="flex">
                 <Card className="flex-child card">
                     <Card.Body>
                         <Card.Title className="card-title">Informacija</Card.Title>
-                            <hr/>
-                            <div className="flex">
-                                <div className="flex-child card-text">
-                                    <p>Prižiūrimų naudotojų skaičius: 10</p>
-                                    Pagalbos iškvietimų skaičius: 0
-                                </div>
+                        <hr />
+                        <div className="flex">
+                            <div className="flex-child card-text">
+                                <p>Prižiūrimų naudotojų skaičius: 10</p>
+                                Pagalbos iškvietimų skaičius: 0
                             </div>
+                        </div>
                     </Card.Body>
                 </Card>
             </div>

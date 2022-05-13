@@ -13,11 +13,13 @@ const RoomForm = ({ roomData, onRoomsChange }) => {
 
     const onChange = (event) => {
         const { name, value } = event.target;
-        setRoom({...room, [name]: value });
+        setRoom({ ...room, [name]: value });
     };
 
     const onSubmit = async (e) => {
         e.preventDefault();
+        let result = null;
+        result = await createSupervisedUsers(roomData.id, room);
         onRoomsChange(room)
     };
 
@@ -41,10 +43,10 @@ const RoomForm = ({ roomData, onRoomsChange }) => {
                     required
                 />
             </Form.Group>
-        <Button variant="primary" type="submit" >
-            {roomData ? "Atnaujinti" : "Pridėti" }
-        </Button>
-    </Form>
+            <Button variant="primary" type="submit" >
+                {roomData ? "Atnaujinti" : "Pridėti"}
+            </Button>
+        </Form>
     )
 }
 

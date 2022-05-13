@@ -8,6 +8,7 @@ import MainContainer from "./components/MainContainer";
 import Profile from "./pages/profile";
 import Users from "./pages/users";
 import Rooms from "./pages/rooms";
+import Beacons from "./pages/beacons";
 
 const Root = () => {
     const [open, setOpen] = useState(false);
@@ -27,6 +28,7 @@ const Root = () => {
                     <Route exact path="/users" component={Users}></Route>
                     <Route exact path="/profile" component={Profile}></Route>
                     <Route exact path="/:id/rooms" component={Rooms}></Route>
+                    <Route exact path="/beacons" component={Beacons}></Route>
                 </MainContainer>
             </Switch>
         </>
