@@ -10,7 +10,7 @@ const Register = () => {
     const onFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            const req = await axios.post("/users", user);
+            const req = await axios.post("/users/register", user);
             console.log(req);
             if (req.status === 200) {
                 history.push("login");

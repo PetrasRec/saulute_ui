@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import axios from "../../axiosConfig";
 import Banner from "../home/components/banner";
 import "../home/components/banner/styles.scss";
-import { getSupervisedUserById } from "../../api";
+import { getSupervisedUserById, getUserBeacons } from "../../api";
 import "./styles.scss";
 import { useParams } from "react-router-dom";
 import { SimpleGrid, Flex, HStack, VStack, Image, Text, Badge, Icon, Spacer, Button } from '@chakra-ui/react'
@@ -11,7 +11,9 @@ import { Modal } from "react-bootstrap";
 
 const Rooms = () => {
   const [selectedUser, setSelectedUser] = useState(null);
-  
+
+  const [userBeacons, setUserBeacons] = useState(null);
+
   const [rooms, setRooms] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +21,8 @@ const Rooms = () => {
 
   const fetchData = async () => {
     const data = await getSupervisedUserById(params.id);
+    const beacons = await getUserBeacons(localStorage.getItem("user_id"));
+    setUserBeacons(beacons.data);
     setSelectedUser(data.data);
   }
   useEffect(() => {
@@ -39,7 +43,7 @@ const Rooms = () => {
     if (!room.id) {
       room.id = rooms.reduce((prev, curr) => prev.id > curr ? prev.id : curr, 0)
       let room_idx = 0;
-      for(let i = 0; i < rooms.length; i++) {
+      for (let i = 0; i < rooms.length; i++) {
         if (rooms[i].id > room_idx) {
           room_idx = rooms[i].id;
         }
@@ -61,14 +65,14 @@ const Rooms = () => {
     <>
       <div className="room_page">
         <h1>Stebimo asmens: <strong>{selectedUser.name} {selectedUser.surname} </strong>profilis</h1>
-        <br /> 
+        <br />
         <Button _hover={{ bg: "#5f9ea0" }} bg='#43b3ae' color='white' onClick={toggleFormStatus}>
           Pridėti kambarį
         </Button>
-        <br /> <br /> 
+        <br /> <br />
         <div id="rooms" >
-        <SimpleGrid columns={[1, 2, 3]} spacing={5}>
-          {rooms?.map(x => {
+          <SimpleGrid columns={[1, 2, 3]} spacing={5}>
+            {rooms?.map(x => {
               return (
                 <Flex borderRadius="8px" border="1px solid black" bg='inherit' minW='120px' minHeight='240px'>
                   <HStack>
@@ -88,20 +92,21 @@ const Rooms = () => {
                 </Flex>
               )
             })}
-        </SimpleGrid>
+          </SimpleGrid>
         </div>
       </div>
       <Modal show={isOpen} onHide={toggleFormStatus}>
-          <Modal.Header closeButton>
-            <Modal.Title> Pridėti naują kambarį </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <RoomForm
-              onRoomsChange={onRoomsChnage}
-              toggleModal={toggleFormStatus}
-            />
-          </Modal.Body>
-        </Modal>
+        <Modal.Header closeButton>
+          <Modal.Title> Pridėti naują kambarį </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <RoomForm
+            onRoomsChange={onRoomsChnage}
+            userBeacons={userBeacons}
+            toggleModal={toggleFormStatus}
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

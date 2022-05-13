@@ -1,42 +1,52 @@
 import { React, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { addBeacon, editBeacon } from "../../../api";
+import { addUserBeacon } from "../../../api";
 import { messageHandling } from '../../../utils/messageHandling';
 
-const BeaconForm = ({ beaconData, onBeaconsChange, toggleModal, roles }) => {
+const BeaconForm = ({ beaconData, onBeaconsChange, toggleModal, users, beaconIds }) => {
+    console.log("iddds: ", beaconIds)
+    const [userId, setUserId] = useState(null);
+    const [beaconId, setBeaconId] = useState(null);
 
-    const [beacon, setBeacon] = useState(beaconData ? beaconData : {
-        identification: "",
-    });
-
-    const onChange = (event) => {
-        const { name, value } = event.target;
-        setBeacon({ ...beacon, [name]: value });
+    const onChangeUser = (event) => {
+        setUserId(event.target.value)
     };
+
+    const onChangeBeacon = (event) => {
+        setBeaconId(event.target.value)
+    }
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        let result = null;
-        if (beaconData) {
-            result = await editBeacon(beaconData.id, beacon);
-            messageHandling("success", "Successfuly updated beacon");
-        } else {
-            result = await addBeacon(beacon);
-            messageHandling("success", "Successfuly added new beacon");
-        }
+        addUserBeacon(userId, { beaconId: beaconId })
         toggleModal();
-        onBeaconsChange(result.data);
+        onBeaconsChange();
     };
 
     return (
         <Form onSubmit={onSubmit}>
             <Form.Group>
-                <Form.Label class="name">Švyturio identifikacija</Form.Label>
-                <Form.Control
-                    name="identification"
-                    onChange={onChange}
-                    value={beacon.identification}
-                />
+                <Form.Label class="name">Naudotojas</Form.Label>
+                <select value={userId} onChange={onChangeUser}>
+                    {
+                        users.map(u => (
+                            <option value={u.id}>
+                                {u.name} {u.surname}
+                            </option>
+                        ))
+                    }
+                </select>
+                <br />
+                <Form.Label class="name">Svyturys</Form.Label>
+                <select value={beaconId} onChange={onChangeBeacon}>
+                    {
+                        beaconIds.map(u => (
+                            <option value={u}>
+                                {u}
+                            </option>
+                        ))
+                    }
+                </select>
             </Form.Group>
             <Button variant="primary" type="submit" >
                 {beaconData ? "Update" : "Add"}

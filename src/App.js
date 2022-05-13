@@ -7,17 +7,17 @@ import Root from "./Root";
 const App = () => {
     return (
         <>
-        <ToastContainer 
-            enableMultiContainer
-            closeOnClick
-            position="bottom-right"
-            autoClose={5000} 
-        />
-        <Router>
-            <Route exact path="/login" component={Auth} />
-            <Route exact path="/register" component={Auth} />
-            <Route component={Root} />
-        </Router>
+            <ToastContainer
+                enableMultiContainer
+                closeOnClick
+                position="bottom-right"
+                autoClose={5000}
+            />
+            <Router>
+                <Route exact path="/login" component={Auth} />
+                <Route exact path="/register" component={Auth} />
+                <Route component={Root} />
+            </Router>
         </>
     );
 };

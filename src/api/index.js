@@ -5,7 +5,7 @@ import { getAllRoles } from "./roles";
 
 import { getSupervisedUsers, deleteSupervisedUsers, createSupervisedUsers, updateSupervisedUsers, getSupervisedUserById } from "./supervisedUsers"
 
-import { getBeacons, editBeacon, addBeacon, deleteBeacon } from "./beacons"
+import { getBeacons, editBeacon, addBeacon, deleteBeacon, getRssiBeacons, addUserBeacon, getUserBeacons, getRssiBeaconRooms } from "./beacons"
 
 export {
     getUsers,
@@ -23,4 +23,8 @@ export {
     editBeacon,
     addBeacon,
     deleteBeacon,
+    getRssiBeacons,
+    addUserBeacon,
+    getUserBeacons,
+    getRssiBeaconRooms,
 };

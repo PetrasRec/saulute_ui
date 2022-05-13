@@ -8,6 +8,8 @@ const createSupervisedUsers = async (userId, data) => axios.post(`/supervised/us
 const updateSupervisedUsers = async (id, data) => axios.put(`/supervised/users/${id}`, data);
 const getSupervisedUserById = async (id) => axios.get(`/supervised/users/${id}/info`);
 
+//const CreateRoom = async (id) => axios.get(`/supervised/users/${id}/info`);
+
 
 export {
     getSupervisedUsers,

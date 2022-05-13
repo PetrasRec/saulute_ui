@@ -3,7 +3,7 @@ import { Modal, NavLink } from "react-bootstrap";
 import MainContainer from "../../components/MainContainer";
 import BeaconsTable from "./components/table";
 import BeaconForm from "./components/form";
-import { getBeacons, deleteBeacon, editBeacon } from "../../api";
+import { getRssiBeacons, deleteBeacon, editBeacon, getUsers } from "../../api";
 import "./style.css";
 import { messageHandling } from "../../utils/messageHandling";
 import { SimpleGrid, Button } from '@chakra-ui/react'
@@ -15,12 +15,14 @@ class Beacons extends Component {
   state = {
     isOpen: false,
     beacons: null,
+    users: null,
   };
 
   refreshBeacons = async () => {
-    const beacons = await getBeacons();
-    console.log(beacons);
-    this.setState({ beacons: beacons.data });
+    const beacons = await getRssiBeacons();
+    const users = await getUsers();
+    console.log("zodis", beacons.data);
+    this.setState({ beacons: beacons.data, users: users.data });
   };
 
   onDelete = async (beacon) => {
@@ -43,12 +45,7 @@ class Beacons extends Component {
   };
 
   onBeaconsChange = (beacon) => {
-    const { beacons } = this.state;
-    this.setState({
-      beacons: beacons
-        .map((u) => (u.id === beacon.id ? beacon : u))
-        .concat(beacons.find((u) => u.id === beacon.id) ? [] : [beacon]),
-    });
+    this.refreshBeacons();
   };
 
   render() {
@@ -86,7 +83,8 @@ class Beacons extends Component {
                   return (
 
                     <Tr>
-                      <Td>{x.identification}</Td>
+                      <Td>{x.userId}</Td>
+                      <Td>{x.beaconId}</Td>
                       <Td>
                         <Button mt={2} color="white" style={{ background: "green" }}>Redaguoti</Button>
                         <Button mt={2} onClick={() => this.onDelete(x)} color="white" style={{ background: "red" }}>Ištrinti</Button>
@@ -119,7 +117,8 @@ class Beacons extends Component {
             <BeaconForm
               onBeaconsChange={this.onBeaconsChange}
               toggleModal={this.toggleFormStatus}
-              roles={roles}
+              beaconIds={this.state.beacons}
+              users={this.state.users}
             />
           </Modal.Body>
         </Modal>
