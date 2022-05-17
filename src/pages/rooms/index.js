@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import axios from "../../axiosConfig";
 import Banner from "../home/components/banner";
 import "../home/components/banner/styles.scss";
-import { getSupervisedUserById, getUserBeacons } from "../../api";
+import { getSupervisedUserById, getUserBeacons, getUserRooms,  deleteUserRoomsById, getUserRoomsLiveData} from "../../api";
 import "./styles.scss";
 import { useParams } from "react-router-dom";
 import { SimpleGrid, Flex, HStack, VStack, Image, Text, Badge, Icon, Spacer, Button } from '@chakra-ui/react'
@@ -14,7 +14,9 @@ const Rooms = () => {
 
   const [userBeacons, setUserBeacons] = useState(null);
 
-  const [rooms, setRooms] = useState([]);
+  const [userRooms, setUserRoom] = useState([]);
+
+  const [liveData, setLiveData] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams();
@@ -22,13 +24,31 @@ const Rooms = () => {
   const fetchData = async () => {
     const data = await getSupervisedUserById(params.id);
     const beacons = await getUserBeacons(localStorage.getItem("user_id"));
+    const userRooms = await getUserRooms(localStorage.getItem("user_id"));
     setUserBeacons(beacons.data);
     setSelectedUser(data.data);
+    setUserRoom(userRooms.data);
   }
+  
   useEffect(() => {
     fetchData()
+    setInterval(getLiveData, 4000);
   }, []);
 
+  const getLiveData = async () => {
+    const liveRoomData = await getUserRoomsLiveData(localStorage.getItem("user_id"));  
+    for (let i = 0; i < liveRoomData.data.length; i++) {
+      const liveRoom = liveRoomData.data[i];
+      const idx = userRooms.findIndex(ur => ur.id == liveRoom.userRoom.id);
+
+      if (idx === -1) {
+        continue;
+      }
+      userRooms[idx] = {...userRooms[idx], insideRoom: liveRoom.insideRoom, distance: liveRoom.distance};
+      
+    } 
+    setLiveData(liveRoomData.data);
+  }
   const toggleFormStatus = () => {
     setIsOpen(!isOpen);
   };
@@ -40,27 +60,14 @@ const Rooms = () => {
 
   const onRoomsChnage = (room) => {
     toggleFormStatus();
-    if (!room.id) {
-      room.id = rooms.reduce((prev, curr) => prev.id > curr ? prev.id : curr, 0)
-      let room_idx = 0;
-      for (let i = 0; i < rooms.length; i++) {
-        if (rooms[i].id > room_idx) {
-          room_idx = rooms[i].id;
-        }
-      }
-      room.id = room_idx + 1;
-      if (room.id === 2) {
-        room.inside_room = true;
-      }
-      console.log(room);
-      setRooms([...rooms, room]);
-    } else {
-      let room_idx = rooms.findIndex(r => r.id === room.id)
-      rooms[room_idx] = room;
+    fetchData();
+  };
 
-      setRooms(rooms);
-    }
-  }
+  const onDelete = async (id) => {
+    await deleteUserRoomsById(id);
+    fetchData();
+  };
+
   return (
     <>
       <div className="room_page">
@@ -72,20 +79,21 @@ const Rooms = () => {
         <br /> <br />
         <div id="rooms" >
           <SimpleGrid columns={[1, 2, 3]} spacing={5}>
-            {rooms?.map(x => {
+            {userRooms?.map(x => {
               return (
                 <Flex borderRadius="8px" border="1px solid black" bg='inherit' minW='120px' minHeight='240px'>
                   <HStack>
                     <VStack alignItems="flex-start" p={2}>
                       <Image borderRadius="md" src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1092&q=80" />
                       <Text mt={2} fontSize="xl" fontWeight="semibold" >{x.name}</Text>
-                      <Badge colorScheme={x.inside_room ? "green" : "red"}>{x.inside_room ? "Inside" : "Outside"}</Badge>
+                      <Badge colorScheme={(liveData?.find(r => x.id == r.userRoom.id)?.isInside ?? false) ? "green" : "red"}>{(liveData?.find(r => x.id == r.userRoom.id)?.isInside ?? false) ? "Inside" : "Outside"}</Badge>
+                      <Badge colorScheme="white">Atstumas: {liveData?.find(r => x.id == r.userRoom.id)?.distance ?? "Krauna"}</Badge>
                     </VStack >
                     <VStack h="100%" p={2}>
                       <Flex h="100%" />
                       <Flex flexDir="column" >
                         <Button mt={2} color="white" style={{ background: "green" }}>Redaguoti</Button>
-                        <Button mt={2} onClick={() => this.onDelete(x)} width="100%" color="white" style={{ background: "red" }}>Ištrinti</Button>
+                        <Button mt={2} onClick={() => onDelete(x.id)} width="100%" color="white" style={{ background: "red" }}>Ištrinti</Button>
                       </Flex>
                     </VStack>
                   </HStack>

@@ -1,17 +1,14 @@
 import { React, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { createSupervisedUsers, updateSupervisedUsers, getRssiBeaconRooms } from "../../../api";
+import { createSupervisedUsers, addUserRoom, getRssiBeaconRooms } from "../../../api";
 import { messageHandling } from '../../../utils/messageHandling';
 
 const RoomForm = ({ roomData, onRoomsChange, userBeacons }) => {
     const [room, setRoom] = useState(roomData ? roomData : {
-        id: null,
         name: "",
-        stack_id: null,
-        inside_room: false,
+        beaconId: null,
+        roomId: null,
     });
-
-    const [beaconId, setbeaconId] = useState(null);
 
     const [roomExternal, setRoomExternal] = useState(null);
 
@@ -22,15 +19,27 @@ const RoomForm = ({ roomData, onRoomsChange, userBeacons }) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        let result = null;
-        result = await createSupervisedUsers(roomData.id, room);
-        onRoomsChange(room)
+        console.log(room);
+        const r = roomExternal.find(re => re.id == room.roomId);
+        room.corner1 = r.corner1;
+        room.corner2 = r.corner2;
+        room.corner3 = r.corner3;
+        room.corner4 = r.corner4;
+        await addUserRoom(localStorage.getItem("user_id"), room);
+
+        onRoomsChange()
     };
 
     const onChangeBeacon = async (event) => {
         const beaconId = event.target.value;
         const rooms = await getRssiBeaconRooms(beaconId);
-        setRoomExternal(rooms.data)
+        setRoomExternal(rooms.data);
+        setRoom({ ...room, beaconId: parseInt(beaconId) });
+    };
+
+    const onChangeRoom = async (event) => {
+        const roomId = event.target.value;
+        setRoom({ ...room, roomId: parseInt(roomId) });
     };
 
     return (
@@ -46,10 +55,10 @@ const RoomForm = ({ roomData, onRoomsChange, userBeacons }) => {
             </Form.Group>
 
             <Form.Group>
-                <Form.Label class="names">Svyturys</Form.Label>
-                <select value={beaconId} onChange={onChangeBeacon}>
+                <Form.Label class="names">Švyturys</Form.Label>
+                <select value={room.beaconId} onChange={onChangeBeacon}>
                     <option value={null}>
-                        Select beacon id
+                        Pasirinkti švyturį
                     </option>
                     {
                         userBeacons.map(u => (
@@ -62,13 +71,13 @@ const RoomForm = ({ roomData, onRoomsChange, userBeacons }) => {
             </Form.Group>
             <Form.Group>
                 <Form.Label class="names">Kambariai</Form.Label>
-                <select value={beaconId} onChange={() => { }}>
+                <select value={room.roomId} onChange={onChangeRoom}>
                     <option value={null}>
                         Pasirinkti kambari
                     </option>
                     {
                         roomExternal?.map(u => (
-                            <option value={u.corner1}>
+                            <option value={u.id}>
                                 {u.id} {u.corner1} {u.corner2} {u.corner3} {u.corner4}
                             </option>
                         ))
