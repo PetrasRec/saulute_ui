@@ -15,6 +15,7 @@ const getUserBeacons = async (userId, beaconData) => axios.get(`/beacons/${userI
 
 const getRssiBeaconRooms = async (beaconId) => axios.get(`/rssi/beacons/${beaconId}/rooms`);
 
+
 const deleteBeacon = async (id) => axios.delete(`/beacons/${id}`);
 
 export {
