@@ -54,7 +54,7 @@ class Users extends Component {
     return (
       <div>
         <h2 style={headerStyle}>Prižiūrimieji</h2>
-        <Button _hover={{ bg: "#5f9ea0" }} bg='#43b3ae' color='white' onClick={this.toggleFormStatus} >
+        <Button _hover={{ bg: "#009999" }} bg='#43b3ae' color='white' onClick={this.toggleFormStatus} >
           Add User
         </Button>
 
@@ -78,10 +78,10 @@ class Users extends Component {
                     <Flex h="100%" />
                     <Flex flexDir="column" >
                       <Link to={`/${x.id}/rooms`}>
-                        <Button mt={2} color="white" style={{ background: "purple" }}>Priežiūra</Button>
+                        <Button mt={2} color="white" _hover={{ bg: "#4c0099" }} bg='#6600cc'>Priežiūra</Button>
                       </Link>
-                      <Button mt={2} color="white" style={{ background: "green" }}>Redaguoti</Button>
-                      <Button mt={2} onClick={() => this.onDelete(x)} width="100%" color="white" style={{ background: "red" }}>Ištrinti</Button>
+                      <Button mt={2} _hover={{ bg: "#006633" }} bg='#00994c' color='white'>Redaguoti</Button>
+                      <Button mt={2} _hover={{ bg: "#A62121" }} bg='#D82828' color='white' onClick={() => this.onDelete(x)}>Ištrinti</Button>
                     </Flex>
                   </VStack>
                 </HStack>

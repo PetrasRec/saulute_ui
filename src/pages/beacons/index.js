@@ -3,7 +3,7 @@ import { Modal, NavLink } from "react-bootstrap";
 import MainContainer from "../../components/MainContainer";
 import BeaconsTable from "./components/table";
 import BeaconForm from "./components/form";
-import { getRssiBeacons, deleteBeacon, editBeacon, getUsers } from "../../api";
+import { getRssiBeacons, deleteBeacon, editBeacon, getUsers, getUserBeacons } from "../../api";
 import "./style.css";
 import { messageHandling } from "../../utils/messageHandling";
 import { SimpleGrid, Button } from '@chakra-ui/react'
@@ -14,15 +14,18 @@ import { Link } from "react-router-dom";
 class Beacons extends Component {
   state = {
     isOpen: false,
+    isOpenEdit: false,
     beacons: null,
     users: null,
+    userbeacons: null,
   };
 
   refreshBeacons = async () => {
     const beacons = await getRssiBeacons();
     const users = await getUsers();
-    console.log("zodis", beacons.data);
-    this.setState({ beacons: beacons.data, users: users.data });
+    const userbeacons = await getUserBeacons(localStorage.getItem("user_id"), beacons.data)
+    console.log("zodis", userbeacons.data);
+    this.setState({ beacons: beacons.data, users: users.data, userbeacons: userbeacons.data });
   };
 
   onDelete = async (beacon) => {
@@ -44,12 +47,17 @@ class Beacons extends Component {
     this.setState({ isOpen: !isOpen });
   };
 
+  toggleEditFormStatus = () => {
+    const { isOpenEdit } = this.state;
+    this.setState({ isOpenEdit: !isOpenEdit });
+  };
+
   onBeaconsChange = (beacon) => {
     this.refreshBeacons();
   };
 
   render() {
-    const { isOpen, beacons, roles } = this.state;
+    const { isOpen, beacons, roles, isOpenEdit } = this.state;
     const headerStyle = {
       textAlign: "center",
       fontSize: "30px",
@@ -63,31 +71,32 @@ class Beacons extends Component {
     return (
       <div>
         <h2 style={headerStyle}>Švyturiai</h2>
-        <Button _hover={{ bg: "#5f9ea0" }} bg='#43b3ae' color='white' onClick={this.toggleFormStatus} >
+        <Button _hover={{ bg: "#009999" }} bg='#43b3ae' color='white' onClick={this.toggleFormStatus} >
           Add Beacon
         </Button>
 
         <hr />
         <SimpleGrid columns={[1]} spacing={5}>
           <TableContainer>
-            <Table size='sm' variant="striped" colorScheme="blackAlpha">
+            <Table size='sm' variant="striped" colorScheme="blue">
               <Thead>
                 <Tr>
-                  <Th>Identifikacijos numeris</Th>
-                  <Th>Pavadinimas</Th>
+                  <Th>Vartotojo vardas</Th>
+                  <Th>Vartotojo pavardė</Th>
+                  <Th>Švyturio ID numeris</Th>
                   <Th></Th>
                 </Tr>
               </Thead>
               <Tbody>
-                {this.state.beacons?.map(x => {
+                {this.state.userbeacons?.map(x => {
                   return (
-
                     <Tr>
-                      <Td>{x.userId}</Td>
+                      <Td>{x.user.name}</Td>
+                      <Td>{x.user.surname}</Td>
                       <Td>{x.beaconId}</Td>
                       <Td>
-                        <Button mt={2} color="white" style={{ background: "green" }}>Redaguoti</Button>
-                        <Button mt={2} onClick={() => this.onDelete(x)} color="white" style={{ background: "red" }}>Ištrinti</Button>
+                        <Button mt={2} _hover={{ bg: "#006633" }} bg='#00994c' color='white' onClick={this.toggleEditFormStatus}>Redaguoti</Button>
+                        <Button mt={2} _hover={{ bg: "#A62121" }} bg='#D82828' color='white' onClick={() => this.onDelete(x)}>Ištrinti</Button>
                       </Td>
                     </Tr>
 
@@ -122,6 +131,22 @@ class Beacons extends Component {
             />
           </Modal.Body>
         </Modal>
+
+        <Modal show={isOpenEdit} onHide={this.toggleEditFormStatus}>
+          <Modal.Header closeButton>
+            <Modal.Title> Edit Beacon </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <BeaconForm
+              onBeaconsChange={this.onBeaconsChange}
+              toggleModal={this.toggleEditFormStatus}
+              beaconIds={this.state.beacons}
+              users={this.state.users}
+            />
+          </Modal.Body>
+        </Modal>
+
+
       </div>
     );
   }
