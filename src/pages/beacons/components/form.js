@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { addUserBeacon } from "../../../api";
+import { addUserBeacon, editBeacon } from "../../../api";
 import { messageHandling } from '../../../utils/messageHandling';
 
 const BeaconForm = ({ beaconData, onBeaconsChange, toggleModal, users, beaconIds }) => {
@@ -18,7 +18,10 @@ const BeaconForm = ({ beaconData, onBeaconsChange, toggleModal, users, beaconIds
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        addUserBeacon(userId, { beaconId: beaconId })
+        if (!beaconData) {
+            addUserBeacon(userId, { beaconId: beaconId })
+        } else { editBeacon(beaconId, { beaconId: beaconId }); console.log("aaa", beaconData) }
+
         toggleModal();
         onBeaconsChange();
     };

@@ -3,7 +3,7 @@ import "./style.css";
 import SidebarItem from "../SidebarItem";
 
 
-const Sidebar = ({ opened }) => {
+const Sidebar = ({ opened,userid }) => {
 
   return (
     <div className={`sidebar ${opened ? "opened" : "closed"}`}>
@@ -26,12 +26,16 @@ const Sidebar = ({ opened }) => {
           </span>
           Profilis
         </SidebarItem>
+       
+        {localStorage.getItem("role") === 'Admin'? 
         <SidebarItem url="/beacons">
           <span className="material-icons">
           cast
           </span>
           Švyturiai
         </SidebarItem>
+        : null } 
+
       </ul>
       <hr />
     </div>

@@ -3,7 +3,7 @@ import { Modal, NavLink } from "react-bootstrap";
 import MainContainer from "../../components/MainContainer";
 import BeaconsTable from "./components/table";
 import BeaconForm from "./components/form";
-import { getRssiBeacons, deleteBeacon, editBeacon, getUsers, getUserBeacons } from "../../api";
+import { getRssiBeacons, deleteBeacon, editBeacon, getUsers, getUserBeacons, getBeacons } from "../../api";
 import "./style.css";
 import { messageHandling } from "../../utils/messageHandling";
 import { SimpleGrid, Button } from '@chakra-ui/react'
@@ -23,18 +23,14 @@ class Beacons extends Component {
   refreshBeacons = async () => {
     const beacons = await getRssiBeacons();
     const users = await getUsers();
-    const userbeacons = await getUserBeacons(localStorage.getItem("user_id"), beacons.data)
+    //const userbeacons = await getUserBeacons(localStorage.getItem("user_id"), beacons.data)
+    const userbeacons = await getBeacons();
     console.log("zodis", userbeacons.data);
     this.setState({ beacons: beacons.data, users: users.data, userbeacons: userbeacons.data });
   };
 
   onDelete = async (beacon) => {
     await deleteBeacon(beacon.id);
-    this.refreshBeacons();
-  };
-
-  onEdit = async (beacon) => {
-    await editBeacon(beacon.id, beacon.data);
     this.refreshBeacons();
   };
 
