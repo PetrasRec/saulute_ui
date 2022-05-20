@@ -65,7 +65,7 @@ class Users extends Component {
               <Flex borderRadius="8px" border="1px solid black" bg='inherit' minW='120px' minHeight='240px'>
                 <HStack>
                   <VStack alignItems="flex-start" p={2}>
-                    <Image borderRadius="md" src="https://previews.123rf.com/images/dtiberio/dtiberio1801/dtiberio180102518/94247018-confused-old-person.jpg" />
+                    <Image borderRadius="md" src="/img/oldperson.jpg" />
                     <Text mt={2} fontSize="xl" fontWeight="semibold" >{x.name}</Text>
                     <Text mt={2} fontSize="xl" fontWeight="semibold" >{x.surname}</Text>
                     <Badge colorScheme="green">Active</Badge>
