@@ -16,6 +16,8 @@ const getRssiBeaconRooms = async (beaconId) => axios.get(`/rssi/beacons/${beacon
 
 const deleteBeacon = async (id) => axios.delete(`/beacons/${id}`);
 
+const deleteUserBeacon = async (id) => axios.delete(`/beacons/${id}/userbeacons`);
+
 export {
   addBeacon,
   getBeacons,
@@ -25,4 +27,5 @@ export {
   addUserBeacon,
   getUserBeacons,
   getRssiBeaconRooms,
+  deleteUserBeacon,
 };

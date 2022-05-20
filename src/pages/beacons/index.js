@@ -3,7 +3,7 @@ import { Modal, NavLink } from "react-bootstrap";
 import MainContainer from "../../components/MainContainer";
 import BeaconsTable from "./components/table";
 import BeaconForm from "./components/form";
-import { getRssiBeacons, deleteBeacon, editBeacon, getUsers, getUserBeacons, getBeacons } from "../../api";
+import { getRssiBeacons, deleteUserBeacon, editBeacon, getUsers, getUserBeacons, getBeacons } from "../../api";
 import "./style.css";
 import { messageHandling } from "../../utils/messageHandling";
 import { SimpleGrid, Button } from '@chakra-ui/react'
@@ -29,8 +29,8 @@ class Beacons extends Component {
     this.setState({ beacons: beacons.data, users: users.data, userbeacons: userbeacons.data });
   };
 
-  onDelete = async (beacon) => {
-    await deleteBeacon(beacon.id);
+  onDelete = async (userbeacons) => {
+    await deleteUserBeacon(userbeacons.id);
     this.refreshBeacons();
   };
 
@@ -124,6 +124,7 @@ class Beacons extends Component {
               toggleModal={this.toggleFormStatus}
               beaconIds={this.state.beacons}
               users={this.state.users}
+              userBeacons={this.state.userbeacons}
             />
           </Modal.Body>
         </Modal>
