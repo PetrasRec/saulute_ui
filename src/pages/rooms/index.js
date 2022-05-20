@@ -2,7 +2,7 @@ import { React, useEffect, useState } from "react";
 import axios from "../../axiosConfig";
 import Banner from "../home/components/banner";
 import "../home/components/banner/styles.scss";
-import { getSupervisedUserById, getUserBeacons, getUserRooms,  deleteUserRoomsById, getUserRoomsLiveData} from "../../api";
+import { getSupervisedUserById, getUserBeacons, getUserRooms,  deleteUserRoomsById, getUserRoomsLiveData, getUserRoomsLiveHelpData} from "../../api";
 import "./styles.scss";
 import { useParams } from "react-router-dom";
 import { SimpleGrid, Flex, HStack, VStack, Image, Text, Badge, Icon, Spacer, Button } from '@chakra-ui/react'
@@ -17,6 +17,7 @@ const Rooms = () => {
   const [userRooms, setUserRoom] = useState([]);
 
   const [liveData, setLiveData] = useState([]);
+  const [liveHelpData, setLiveHelpData] = useState([]);
 
   const [isOpen, setIsOpen] = useState(false);
   const params = useParams();
@@ -33,22 +34,19 @@ const Rooms = () => {
   useEffect(() => {
     fetchData()
     setInterval(getLiveData, 4000);
+    setInterval(getLiveHelpData, 4000);
   }, []);
 
   const getLiveData = async () => {
     const liveRoomData = await getUserRoomsLiveData(localStorage.getItem("user_id"));  
-    for (let i = 0; i < liveRoomData.data.length; i++) {
-      const liveRoom = liveRoomData.data[i];
-      const idx = userRooms.findIndex(ur => ur.id == liveRoom.userRoom.id);
-
-      if (idx === -1) {
-        continue;
-      }
-      userRooms[idx] = {...userRooms[idx], insideRoom: liveRoom.insideRoom, distance: liveRoom.distance};
-      
-    } 
     setLiveData(liveRoomData.data);
-  }
+  };
+
+  const getLiveHelpData = async () => {
+    const liveRoomData = await getUserRoomsLiveHelpData(localStorage.getItem("user_id"));  
+    setLiveHelpData(liveRoomData.data);
+  };
+
   const toggleFormStatus = () => {
     setIsOpen(!isOpen);
   };
@@ -68,6 +66,25 @@ const Rooms = () => {
     fetchData();
   };
 
+  const getHelp = (userRoom) => {
+    if (!liveHelpData) {
+      return false;
+    }
+    return liveHelpData.filter(h => h.userRoom && h.userRoom.id == userRoom.id);
+  }
+
+  const renderWarning = () => {
+    const helpNotRoom = liveHelpData?.filter(h => !h.userRoom);
+    if (!helpNotRoom || helpNotRoom.length == 0) {
+      return null;
+    }
+    return (
+      <>
+        <h1 style={{ color: 'red' }}>Kvietė pagalba ne kambaryje! (Kiekis: {helpNotRoom.length}) </h1>
+        <br />
+      </>
+    )
+  }
   return (
     <>
       <div className="room_page">
@@ -77,6 +94,7 @@ const Rooms = () => {
           Pridėti kambarį
         </Button>
         <br /> <br />
+        {renderWarning()}
         <div id="rooms" >
           <SimpleGrid columns={[1, 2, 3]} spacing={5}>
             {userRooms?.map(x => {
@@ -88,6 +106,8 @@ const Rooms = () => {
                       <Text mt={2} fontSize="xl" fontWeight="semibold" >{x.name}</Text>
                       <Badge colorScheme={(liveData?.find(r => x.id == r.userRoom.id)?.isInside ?? false) ? "green" : "red"}>{(liveData?.find(r => x.id == r.userRoom.id)?.isInside ?? false) ? "Inside" : "Outside"}</Badge>
                       <Badge colorScheme="white">Atstumas: {liveData?.find(r => x.id == r.userRoom.id)?.distance ?? "Krauna"}</Badge>
+                      {getHelp(x).length > 0 && <Badge colorScheme={"red"} >Kvietė pagalba: {getHelp(x).length}</Badge>}
+                      
                     </VStack >
                     <VStack h="100%" p={2}>
                       <Flex h="100%" />

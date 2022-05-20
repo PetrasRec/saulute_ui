@@ -14,11 +14,12 @@ class Users extends Component {
   state = {
     isOpen: false,
     users: null,
+    helpStamps: null
   };
 
   refreshUsers = async () => {
     const users = await getSupervisedUsers(localStorage.getItem("user_id"));
-    this.setState({ users: users.data });
+    this.setState({ users: users.data.supervisedUsers, helpStamps: users.data.helpStamps });
   };
 
   onDelete = async (user) => {
@@ -28,6 +29,8 @@ class Users extends Component {
 
   componentDidMount = () => {
     this.refreshUsers();
+    
+    setInterval(this.refreshUsers, 4000);
   };
 
   toggleFormStatus = () => {
@@ -43,6 +46,14 @@ class Users extends Component {
         .concat(users.find((u) => u.id === user.id) ? [] : [user]),
     });
   };
+
+  hasCalled = (user) => {
+    if (!this.state.helpStamps) {
+      return false;
+    }
+
+    return this.state.helpStamps.length > 0;
+  }
 
   render() {
     const { isOpen, users, roles } = this.state;
@@ -62,12 +73,13 @@ class Users extends Component {
         <SimpleGrid columns={[1, 2, 3]} spacing={5}>
           {this.state.users?.map(x => {
             return (
-              <Flex borderRadius="8px" border="1px solid black" bg='inherit' minW='120px' minHeight='240px'>
+              <Flex borderRadius="8px" border="1px solid black" bg='inherit' minW='120px' minHeight='240px' backgroundColor={this.hasCalled() ? "red" : ""}>
                 <HStack>
                   <VStack alignItems="flex-start" p={2}>
                     <Image borderRadius="md" src="https://previews.123rf.com/images/dtiberio/dtiberio1801/dtiberio180102518/94247018-confused-old-person.jpg" />
                     <Text mt={2} fontSize="xl" fontWeight="semibold" >{x.name}</Text>
                     <Text mt={2} fontSize="xl" fontWeight="semibold" >{x.surname}</Text>
+                    {this.hasCalled() && <Text mt={2} fontSize="xl" fontWeight="semibold" >Iškvietė pagalbą: {this.state.helpStamps.length}</Text>}
                     <Badge colorScheme="green">Active</Badge>
                   </VStack >
                   <VStack h="100%" p={2}>
