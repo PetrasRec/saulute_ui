@@ -3,10 +3,9 @@ import { Form, Button } from 'react-bootstrap';
 import { addUserBeacon, editBeacon } from "../../../api";
 import { messageHandling } from '../../../utils/messageHandling';
 
-const BeaconForm = ({ beaconData, onBeaconsChange, toggleModal, users, beaconIds, userBeacons }) => {
-    console.log("iddds: ", beaconIds)
-    const [userId, setUserId] = useState(null);
-    const [beaconId, setBeaconId] = useState(null);
+const BeaconForm = ({ onBeaconsChange, toggleModal, users, beaconIds, userBeacons, selectedUserBeacon }) => {
+    const [userId, setUserId] = useState(selectedUserBeacon?.user?.id ?? null);
+    const [beaconId, setBeaconId] = useState(selectedUserBeacon?.beaconId ?? null);
 
     const onChangeUser = (event) => {
         setUserId(event.target.value)
@@ -22,12 +21,14 @@ const BeaconForm = ({ beaconData, onBeaconsChange, toggleModal, users, beaconIds
         if (userBeacons.find(x => x.user.id == userId && x.beaconId == beaconId)) {
             return;
         }
-        if (!beaconData) {
-            addUserBeacon(userId, { beaconId: beaconId })
-        } else { editBeacon(beaconId, { beaconId: beaconId }); console.log("aaa", beaconData) }
+        if (!selectedUserBeacon) {
+            await addUserBeacon(userId, { beaconId: beaconId })
+        } else { 
+            await editBeacon(selectedUserBeacon.id, { beaconId: beaconId, user: {id: userId } });
+        }
 
-        toggleModal();
         onBeaconsChange();
+        toggleModal();   
     };
 
     return (
@@ -35,6 +36,9 @@ const BeaconForm = ({ beaconData, onBeaconsChange, toggleModal, users, beaconIds
             <Form.Group>
                 <Form.Label class="name">Naudotojas</Form.Label>
                 <select value={userId} onChange={onChangeUser}>
+                    <option value={null}>
+                        Pasirinkti naudotoja
+                    </option>
                     {
                         users.map(u => (
                             <option value={u.id}>
@@ -43,9 +47,14 @@ const BeaconForm = ({ beaconData, onBeaconsChange, toggleModal, users, beaconIds
                         ))
                     }
                 </select>
+            </Form.Group>
                 <br />
+            <Form.Group>
                 <Form.Label class="name">Svyturys</Form.Label>
                 <select value={beaconId} onChange={onChangeBeacon}>
+                    <option value={null}>
+                        Pasirinkti id
+                    </option>
                     {
                         beaconIds.map(u => (
                             <option value={u}>
@@ -56,10 +65,29 @@ const BeaconForm = ({ beaconData, onBeaconsChange, toggleModal, users, beaconIds
                 </select>
             </Form.Group>
             <Button variant="primary" type="submit" >
-                {beaconData ? "Update" : "Add"}
+                {selectedUserBeacon ? "Update" : "Add"}
             </Button>
         </Form>
     )
 }
 
 export default BeaconForm;
+
+
+/*
+ <Form.Group>
+                <Form.Label class="names">Kambariai</Form.Label>
+                <select value={room.roomId} onChange={onChangeRoom}>
+                    <option value={null}>
+                        Pasirinkti kambari
+                    </option>
+                    {
+                        roomExternal?.map(u => (
+                            <option value={u.id}>
+                                {u.id} {u.corner1} {u.corner2} {u.corner3} {u.corner4}
+                            </option>
+                        ))
+                    }
+                </select>
+            </Form.Group>
+*/

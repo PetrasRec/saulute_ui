@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Modal, NavLink } from "react-bootstrap";
 import MainContainer from "../../components/MainContainer";
-import BeaconsTable from "./components/table";
 import BeaconForm from "./components/form";
 import { getRssiBeacons, deleteUserBeacon, editBeacon, getUsers, getUserBeacons, getBeacons } from "../../api";
 import "./style.css";
@@ -18,6 +17,7 @@ class Beacons extends Component {
     beacons: null,
     users: null,
     userbeacons: null,
+    selectedUserBeacon: null,
   };
 
   refreshBeacons = async () => {
@@ -38,17 +38,12 @@ class Beacons extends Component {
     this.refreshBeacons();
   };
 
-  toggleFormStatus = () => {
+  toggleFormStatus = (userBeacon) => {
     const { isOpen } = this.state;
-    this.setState({ isOpen: !isOpen });
+    this.setState({ isOpen: !isOpen, selectedUserBeacon: !isOpen === false ? null : userBeacon });
   };
 
-  toggleEditFormStatus = () => {
-    const { isOpenEdit } = this.state;
-    this.setState({ isOpenEdit: !isOpenEdit });
-  };
-
-  onBeaconsChange = (beacon) => {
+  onBeaconsChange = () => {
     this.refreshBeacons();
   };
 
@@ -77,8 +72,7 @@ class Beacons extends Component {
             <Table size='sm' variant="striped" colorScheme="blue">
               <Thead>
                 <Tr>
-                  <Th>Vartotojo vardas</Th>
-                  <Th>Vartotojo pavardė</Th>
+                  <Th>Vartotojas</Th>
                   <Th>Švyturio ID numeris</Th>
                   <Th></Th>
                 </Tr>
@@ -87,11 +81,10 @@ class Beacons extends Component {
                 {this.state.userbeacons?.map(x => {
                   return (
                     <Tr>
-                      <Td>{x.user.name}</Td>
-                      <Td>{x.user.surname}</Td>
+                      <Td>{x.user.name} {x.user.surname}</Td>
                       <Td>{x.beaconId}</Td>
                       <Td>
-                        <Button mt={2} _hover={{ bg: "#006633" }} bg='#00994c' color='white' onClick={this.toggleEditFormStatus}>Redaguoti</Button>
+                        <Button mt={2} _hover={{ bg: "#006633" }} bg='#00994c' color='white' onClick={() => this.toggleFormStatus(x)}>Redaguoti</Button>
                         <Button mt={2} _hover={{ bg: "#A62121" }} bg='#D82828' color='white' onClick={() => this.onDelete(x)}>Ištrinti</Button>
                       </Td>
                     </Tr>
@@ -104,19 +97,9 @@ class Beacons extends Component {
 
         </SimpleGrid>
 
-
-
-        <BeaconsTable
-          beacons={beacons}
-          roles={roles}
-          isLoading={beacons === null}
-          onBeaconsChange={this.onBeaconsChange}
-          refreshBeacons={this.refreshBeacons}
-        />
-
         <Modal show={isOpen} onHide={this.toggleFormStatus}>
           <Modal.Header closeButton>
-            <Modal.Title> Add New Beacon </Modal.Title>
+            <Modal.Title> {this.state.selectedUserBeacon ? "Edit beacon" : "Add New Beacon"} </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <BeaconForm
@@ -125,25 +108,10 @@ class Beacons extends Component {
               beaconIds={this.state.beacons}
               users={this.state.users}
               userBeacons={this.state.userbeacons}
+              selectedUserBeacon={this.state.selectedUserBeacon}
             />
           </Modal.Body>
         </Modal>
-
-        <Modal show={isOpenEdit} onHide={this.toggleEditFormStatus}>
-          <Modal.Header closeButton>
-            <Modal.Title> Edit Beacon </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <BeaconForm
-              onBeaconsChange={this.onBeaconsChange}
-              toggleModal={this.toggleEditFormStatus}
-              beaconIds={this.state.beacons}
-              users={this.state.users}
-            />
-          </Modal.Body>
-        </Modal>
-
-
       </div>
     );
   }

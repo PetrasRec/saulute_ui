@@ -16,6 +16,8 @@ const Rooms = () => {
 
   const [userRooms, setUserRoom] = useState([]);
 
+  const [selectedRoom, setSelectedRoom] = useState(null);
+  
   const [liveData, setLiveData] = useState([]);
   const [liveHelpData, setLiveHelpData] = useState([]);
 
@@ -51,6 +53,10 @@ const Rooms = () => {
     setIsOpen(!isOpen);
   };
 
+  const toggleStatsStatus = (room) => {
+    setSelectedRoom(room);
+  };
+
   if (!selectedUser) {
     return null;
   }
@@ -67,8 +73,8 @@ const Rooms = () => {
   };
 
   const getHelp = (userRoom) => {
-    if (!liveHelpData) {
-      return false;
+    if (!liveHelpData || !userRoom) {
+      return [];
     }
     return liveHelpData.filter(h => h.userRoom && h.userRoom.id == userRoom.id);
   }
@@ -106,7 +112,7 @@ const Rooms = () => {
                       <Text mt={2} fontSize="xl" fontWeight="semibold" >{x.name}</Text>
                       <Badge colorScheme={(liveData?.find(r => x.id == r.userRoom.id)?.isInside ?? false) ? "green" : "red"}>{(liveData?.find(r => x.id == r.userRoom.id)?.isInside ?? false) ? "Inside" : "Outside"}</Badge>
                       <Badge colorScheme="white">Atstumas: {liveData?.find(r => x.id == r.userRoom.id)?.distance ?? "Krauna"}</Badge>
-                      {getHelp(x).length > 0 && <Badge colorScheme={"red"} >Kvietė pagalba: {getHelp(x).length}</Badge>}
+                      {getHelp(x).length > 0 && <Badge colorScheme={"red"} onClick={() => toggleStatsStatus(x)}>Kvietė pagalba: {getHelp(x).length}</Badge>}
                       
                     </VStack >
                     <VStack h="100%" p={2}>
@@ -133,6 +139,23 @@ const Rooms = () => {
             userBeacons={userBeacons}
             toggleModal={toggleFormStatus}
           />
+        </Modal.Body>
+      </Modal>
+      <Modal show={selectedRoom} onHide={toggleStatsStatus}>
+        <Modal.Header closeButton>
+          <Modal.Title> Senelio pagalbos prašymo ataskaita </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h1> Šiandien senelis <strong>{selectedUser.name} {selectedUser.surname} </strong> iškvietė {getHelp(selectedRoom).length} kartus pagalbą</h1>
+          <br />
+          <hr />
+          {
+            getHelp(selectedRoom)?.map(x => (
+              <>
+                <li> {x.callTime?.split("T")[0]} {x.callTime?.split("T")[1]} {x?.userRoom?.name}</li>
+              </>
+            ))
+          }
         </Modal.Body>
       </Modal>
     </>
