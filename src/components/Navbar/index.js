@@ -15,7 +15,7 @@ const NavigationBar = ({ toggleOpen }) => {
             </Navbar.Brand>
             <Nav className="ml-auto right-nav right-icons">
                 <li className="nav-item nav-icon">
-                    <NavLink exact to={"/users/profile"}>
+                    <NavLink exact to={"/profile"}>
                         <span className="material-icons">account_circle</span>
                     </NavLink>
                 </li>

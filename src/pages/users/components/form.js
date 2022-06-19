@@ -3,12 +3,9 @@ import { Form, Button } from 'react-bootstrap';
 import { createSupervisedUsers, updateSupervisedUsers } from "../../../api";
 import { messageHandling } from '../../../utils/messageHandling';
 
-const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
-
-    const [selectedImage, setSelectedImage] = useState(null);
-
-
-    const [user, setUser] = useState(userData ? userData : {
+const UserForm = ({ selectedUser, onUsersChange, toggleModal }) => {
+    console.log(selectedUser);
+    const [user, setUser] = useState(selectedUser ? selectedUser : {
         userName: "",
         name: "",
         surname: "",
@@ -22,42 +19,21 @@ const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         let result = null;
-        if (userData) {
-            result = await updateSupervisedUsers(userData.id, user);
-            messageHandling("success", "Successfuly updated user");
+        if (selectedUser) {
+            result = await updateSupervisedUsers(selectedUser.id, user);
+            messageHandling("success", "Sėkmingai atnaujintas prižiūrimasis");
         } else {
             result = await createSupervisedUsers(localStorage.getItem("user_id"), user);
-            messageHandling("success", "Successfuly added new user");
+            messageHandling("success", "Sėkmingai pridėtas prižiūrimasis");
         }
-        toggleModal();
+        toggleModal(null);
         onUsersChange(result.data);
     };
 
     return (
         <Form onSubmit={onSubmit}>
-            <div>
-                    {selectedImage && (
-                        <div>
-                        <img alt="not fount" width={"250px"} src={URL.createObjectURL(selectedImage)} />
-                        <br />
-                        <button onClick={()=>setSelectedImage(null)}>Remove</button>
-                        </div>
-                    )}
-                    <br />
-                    
-                    <br /> 
-                    <input
-                        type="file"
-                        name="myImage"
-                        onChange={(event) => {
-                        console.log(event.target.files[0]);
-                        setSelectedImage(event.target.files[0]);
-                        }}
-                    />
-
-            </div>
             <Form.Group>
-                <Form.Label class="names">Name</Form.Label>
+                <Form.Label class="names">Vardas</Form.Label>
                 <Form.Control
                     name="name"
                     onChange={onChange}
@@ -66,7 +42,7 @@ const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
                 />
             </Form.Group>
             <Form.Group>
-                <Form.Label class="names">Surname</Form.Label>
+                <Form.Label class="names">Pavardė</Form.Label>
                 <Form.Control
                     name="surname"
                     onChange={onChange}
@@ -75,7 +51,7 @@ const UserForm = ({ userData, onUsersChange, toggleModal, roles }) => {
                 />
             </Form.Group>
         <Button variant="primary" type="submit" >
-            {userData ? "Update" : "Add" }
+            {selectedUser ? "Atnaujinti" : "Pridėti" }
         </Button>
     </Form>
     )

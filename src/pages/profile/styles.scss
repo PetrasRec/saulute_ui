@@ -20,14 +20,18 @@
         font-weight: bold;
         font-family: 'Courier New', Courier, monospace;
         padding-top: 50px;
+        text-transform: capitalize; 
     }
 
     .second {
         font-family: 'Courier New', Courier, monospace;
         margin-bottom: 200;
-
     }
 
+    .third {
+        font-family: 'Courier New', Courier, monospace;
+        margin-bottom: 200;
+    }
     .footer {
         position: fixed;
         margin-bottom: 50px;

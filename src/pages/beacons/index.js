@@ -31,6 +31,7 @@ class Beacons extends Component {
 
   onDelete = async (userbeacons) => {
     await deleteUserBeacon(userbeacons.id);
+    messageHandling("success", "Sėkmingai ištrintas švyturys");
     this.refreshBeacons();
   };
 
@@ -40,7 +41,7 @@ class Beacons extends Component {
 
   toggleFormStatus = (userBeacon) => {
     const { isOpen } = this.state;
-    this.setState({ isOpen: !isOpen, selectedUserBeacon: !isOpen === false ? null : userBeacon });
+    this.setState({ isOpen: !isOpen, selectedUserBeacon: userBeacon });
   };
 
   onBeaconsChange = () => {
@@ -62,8 +63,8 @@ class Beacons extends Component {
     return (
       <div>
         <h2 style={headerStyle}>Švyturiai</h2>
-        <Button _hover={{ bg: "#009999" }} bg='#43b3ae' color='white' onClick={this.toggleFormStatus} >
-          Add Beacon
+        <Button _hover={{ bg: "#009999" }} bg='#43b3ae' color='white' onClick={() => this.toggleFormStatus(null)} my={2} >
+          Pridėti švyturį
         </Button>
 
         <hr />
@@ -72,7 +73,9 @@ class Beacons extends Component {
             <Table size='sm' variant="striped" colorScheme="blue">
               <Thead>
                 <Tr>
-                  <Th>Vartotojas</Th>
+                  <Th>Vardas</Th>
+                  <Th>Pavardė</Th>
+                  <Th>El. paštas</Th>
                   <Th>Švyturio ID numeris</Th>
                   <Th></Th>
                 </Tr>
@@ -81,9 +84,11 @@ class Beacons extends Component {
                 {this.state.userbeacons?.map(x => {
                   return (
                     <Tr>
-                      <Td>{x.user.name} {x.user.surname}</Td>
+                      <Td>{x.user.name}</Td>
+                      <Td>{x.user.surname}</Td>
+                      <Td>{x.user.email}</Td>
                       <Td>{x.beaconId}</Td>
-                      <Td>
+                      <Td textAlign="right">
                         <Button mt={2} _hover={{ bg: "#006633" }} bg='#00994c' color='white' onClick={() => this.toggleFormStatus(x)}>Redaguoti</Button>
                         <Button mt={2} _hover={{ bg: "#A62121" }} bg='#D82828' color='white' onClick={() => this.onDelete(x)}>Ištrinti</Button>
                       </Td>
@@ -97,9 +102,9 @@ class Beacons extends Component {
 
         </SimpleGrid>
 
-        <Modal show={isOpen} onHide={this.toggleFormStatus}>
+        <Modal show={isOpen} onHide={() => this.toggleFormStatus(null)}>
           <Modal.Header closeButton>
-            <Modal.Title> {this.state.selectedUserBeacon ? "Edit beacon" : "Add New Beacon"} </Modal.Title>
+            <Modal.Title> {this.state.selectedUserBeacon ? "Redaguoti švyturį" : "Pridėti naują švyturį"} </Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <BeaconForm

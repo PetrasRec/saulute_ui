@@ -17,14 +17,18 @@ const BeaconForm = ({ onBeaconsChange, toggleModal, users, beaconIds, userBeacon
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(userBeacons, userId, beaconId, userBeacons.find(x => x.user.id == userId && x.beaconId == beaconId))
-        if (userBeacons.find(x => x.user.id == userId && x.beaconId == beaconId)) {
+
+        if (userBeacons.find(x => (!selectedUserBeacon || selectedUserBeacon.id !== x.id) && x.user.id == userId && x.beaconId == beaconId)) {
+            messageHandling("error", "Toks švyturys jau pridėtas");
             return;
         }
+
         if (!selectedUserBeacon) {
-            await addUserBeacon(userId, { beaconId: beaconId })
+            await addUserBeacon(userId, { beaconId: beaconId });
+            messageHandling("success", "Sėkmingai pridėtas švyturys");
         } else { 
             await editBeacon(selectedUserBeacon.id, { beaconId: beaconId, user: {id: userId } });
+            messageHandling("success", "Sėkmingai atnaujintas švyturys");
         }
 
         onBeaconsChange();
@@ -65,29 +69,10 @@ const BeaconForm = ({ onBeaconsChange, toggleModal, users, beaconIds, userBeacon
                 </select>
             </Form.Group>
             <Button variant="primary" type="submit" >
-                {selectedUserBeacon ? "Update" : "Add"}
+                {selectedUserBeacon ? "Atnaujinti" : "Pridėti"}
             </Button>
         </Form>
     )
 }
 
 export default BeaconForm;
-
-
-/*
- <Form.Group>
-                <Form.Label class="names">Kambariai</Form.Label>
-                <select value={room.roomId} onChange={onChangeRoom}>
-                    <option value={null}>
-                        Pasirinkti kambari
-                    </option>
-                    {
-                        roomExternal?.map(u => (
-                            <option value={u.id}>
-                                {u.id} {u.corner1} {u.corner2} {u.corner3} {u.corner4}
-                            </option>
-                        ))
-                    }
-                </select>
-            </Form.Group>
-*/

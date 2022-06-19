@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from "react";
 import { Container, Row, Col, Card, Image } from "react-bootstrap";
+import { getSupervisedUsers, getUserById } from "../../api";
 import axios from "../../axiosConfig";
 import Banner from "../home/components/banner";
 import "../home/components/banner/styles.scss";
@@ -12,6 +13,19 @@ const Profile = () => {
         surname: "pavarde"
     })
 
+    const [supervisedUsers, setSupervisedUsers] = useState([])
+
+    const fetchData = async () => {
+        var user = await getUserById(localStorage.getItem("user_id"));
+        var supervised = await getSupervisedUsers(localStorage.getItem("user_id"));
+        setSupervisedUsers(supervised.data.supervisedUsers);
+        setUser(user.data);
+    };
+
+    useEffect(() => {
+        fetchData()
+    }, []);
+    
     return (
         <div className="profile__page">
             <div className="flex-container">
@@ -21,7 +35,10 @@ const Profile = () => {
                         {user.name} {user.surname}
                     </div>
                     <div className="profile-summary second">
-                        prižiūrėtojas
+                        {user.email}
+                    </div>
+                    <div className="profile-summary third">
+                        {localStorage.getItem("role") === "Admin" ? "Administartorius" : "Prižiūrėtojas"}
                     </div>
                 </div>
             </div>
@@ -33,8 +50,12 @@ const Profile = () => {
                         <hr />
                         <div className="flex">
                             <div className="flex-child card-text">
-                                <p>Prižiūrimų naudotojų skaičius: 10</p>
-                                Pagalbos iškvietimų skaičius: 0
+                                <p>Prižiūrimų naudotojų skaičius: {supervisedUsers.length}</p>
+                                <ul>
+                                    {supervisedUsers.map(x => (
+                                        <li style={{marginLeft: "30px"}}>{x.name} {x.surname}</li>
+                                    ))}
+                                </ul>
                             </div>
                         </div>
                     </Card.Body>
